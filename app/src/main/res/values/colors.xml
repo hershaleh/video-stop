@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_top">#1E1B4B</color>
+    <color name="bg_mid">#4C1D95</color>
+    <color name="bg_bottom">#9D174D</color>
+    <color name="glass">#26FFFFFF</color>
+    <color name="glass_border">#40FFFFFF</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#CCFFFFFF</color>
+    <color name="accent">#FB7185</color>
+    <color name="ok">#34D399</color>
+    <color name="button_text">#3B0764</color>
+</resources>

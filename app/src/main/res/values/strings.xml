@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VideoStop</string>
+    <string name="service_description">מזהה ניסיון לצפות בוידאו ומציג מסך חסימה במקומו.</string>
+
+    <string name="main_title">VideoStop</string>
+    <string name="main_subtitle">שומרים על המסך נקי מוידאו</string>
+    <string name="status_on">החסימה פעילה</string>
+    <string name="status_off">החסימה כבויה</string>
+    <string name="status_on_desc">כל ניסיון לצפות בוידאו ייחסם אוטומטית.</string>
+    <string name="status_off_desc">כדי להפעיל, יש להדליק את VideoStop בהגדרות הנגישות.</string>
+    <string name="btn_open_settings">פתיחת הגדרות נגישות</string>
+    <string name="hint_restricted">אם האפשרות מושבתת: הגדרות ← אפליקציות ← VideoStop ← ⋮ ← אפשר הגדרות מוגבלות.</string>
+
+    <string name="block_title">צפייה בוידאו חסומה</string>
+    <string name="block_subtitle">זוהה ניסיון להפעיל וידאו.\nהתוכן הזה אינו זמין כרגע.</string>
+    <string name="block_button">חזרה למסך הבית</string>
+</resources>
