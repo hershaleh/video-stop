@@ -101,5 +101,38 @@
             android:text="@string/hint_restricted"
             android:textColor="#99FFFFFF"
             android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/btnPin"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/bg_button_ghost"
+            android:stateListAnimator="@null"
+            android:text="@string/btn_pin_set"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btnBattery"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_button_ghost"
+            android:stateListAnimator="@null"
+            android:text="@string/btn_battery"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btnProjection"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_button_ghost"
+            android:stateListAnimator="@null"
+            android:text="@string/btn_projection_off"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp" />
     </LinearLayout>
 </ScrollView>

@@ -15,4 +15,28 @@
     <string name="block_title">צפייה בוידאו חסומה</string>
     <string name="block_subtitle">זוהה ניסיון להפעיל וידאו.\nהתוכן הזה אינו זמין כרגע.</string>
     <string name="block_button">חזרה למסך הבית</string>
+
+    <string name="btn_pin_set">הגדרת קוד הגנה</string>
+    <string name="btn_pin_manage">קוד הגנה: שינוי / הסרה</string>
+    <string name="btn_battery">פטור מחיסכון בסוללה</string>
+    <string name="btn_battery_ok">✓ פטור מחיסכון בסוללה פעיל</string>
+    <string name="btn_projection_off">הפעלת זיהוי תנועה (אנדרואיד 8–10)</string>
+    <string name="btn_projection_on">✓ זיהוי תנועה פעיל (לחיצה לכיבוי)</string>
+
+    <string name="pin_enter_current">הזן את הקוד הנוכחי</string>
+    <string name="pin_new">בחר קוד חדש (4–8 ספרות)</string>
+    <string name="pin_change">שינוי קוד</string>
+    <string name="pin_remove">הסרת קוד</string>
+    <string name="pin_saved">הקוד נשמר</string>
+    <string name="pin_removed">הקוד הוסר</string>
+    <string name="pin_wrong">קוד שגוי</string>
+    <string name="pin_len_error">הקוד חייב להכיל 4–8 ספרות</string>
+    <string name="dlg_ok">אישור</string>
+    <string name="dlg_cancel">ביטול</string>
+    <string name="pin_title">הזן קוד כדי להמשיך</string>
+    <string name="pin_subtitle">ההגדרות האלה מוגנות בקוד</string>
+    <string name="pin_cancel">ביטול</string>
+
+    <string name="projection_title">VideoStop – זיהוי תנועה</string>
+    <string name="projection_text">צילום המסך מנותח במכשיר בלבד ואינו נשמר</string>
 </resources>
