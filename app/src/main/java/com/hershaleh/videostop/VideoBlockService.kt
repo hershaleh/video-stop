@@ -58,6 +58,22 @@ class VideoBlockService : AccessibilityService() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) handler.post(motionTick)
     }
 
+    private val exemptCache = HashMap<String, Boolean>()
+
+    /** אפליקציות שבהן תנועה במסך היא לגיטימית: מצלמה, שיחות וידאו, ניווט ומשחקים. */
+    private fun isMotionExempt(pkg: String): Boolean = exemptCache.getOrPut(pkg) {
+        if (pkg in MOTION_EXEMPT_APPS) return@getOrPut true
+        if (EXEMPT_NAME_HINTS.any { pkg.contains(it, ignoreCase = true) }) return@getOrPut true
+        try {
+            val info = packageManager.getApplicationInfo(pkg, 0)
+            @Suppress("DEPRECATION")
+            info.category == android.content.pm.ApplicationInfo.CATEGORY_GAME ||
+                (info.flags and android.content.pm.ApplicationInfo.FLAG_IS_GAME) != 0
+        } catch (_: Exception) {
+            false
+        }
+    }
+
     /** צילום מסך תקופתי והשוואה לפריים הקודם. */
     private fun motionScan() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return
@@ -65,7 +81,7 @@ class VideoBlockService : AccessibilityService() {
         val now = SystemClock.uptimeMillis()
         val awake = (getSystemService(POWER_SERVICE) as PowerManager).isInteractive
         if (overlay != null || scanning || pkg == null || pkg == homePkg || !awake ||
-            now < cooldownUntil || now - lastInteraction < QUIET_MS
+            now < cooldownUntil || now - lastInteraction < QUIET_MS || isMotionExempt(pkg)
         ) {
             detector.reset()
             return
@@ -241,6 +257,22 @@ class VideoBlockService : AccessibilityService() {
     }
 
     private companion object {
+        /** פטורות מזיהוי תנועה בלבד (זיהוי לפי רכיבים ורשימת הוידאו ממשיכים לפעול). */
+        val MOTION_EXEMPT_APPS = setOf(
+            // מצלמה
+            "com.android.camera", "com.android.camera2", "com.google.android.GoogleCamera",
+            "com.sec.android.app.camera", "com.motorola.camera3", "com.oneplus.camera",
+            "com.miui.camera", "com.huawei.camera", "com.oppo.camera",
+            // שיחות וידאו
+            "us.zoom.videomeetings", "com.google.android.apps.tachyon",
+            "com.microsoft.teams", "com.skype.raider", "com.cisco.webex.meetings",
+            "org.jitsi.meet",
+            // ניווט
+            "com.google.android.apps.maps", "com.waze"
+        )
+
+        val EXEMPT_NAME_HINTS = listOf("camera")
+
         const val MOTION_INTERVAL_MS = 500L
         const val QUIET_MS = 1200L
 
