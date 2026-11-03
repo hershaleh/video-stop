@@ -655,7 +655,9 @@ class VideoBlockService : AccessibilityService() {
         /** מילים שמצביעות על פעולת הסרה/כיבוי (עברית ואנגלית). */
         val ACTION_WORDS = listOf(
             "uninstall", "force stop", "disable", "deactivate", "clear data", "clear storage", "turn off",
-            "הסר", "עצור", "השבת", "בטל", "נקה", "כבה", "מחק"
+            "sleep", "restrict", "optimiz", "hibernat", "pause app",
+            "הסר", "עצור", "אילוץ", "השבת", "בטל", "נקה", "כבה", "מחק",
+            "שינה", "הגבל", "אופטימיזציה", "השהה"
         )
 
         /** מסכים שמהם אפשר לכבות או להסיר את האפליקציה – מוגנים בקוד (אם הוגדר). */
