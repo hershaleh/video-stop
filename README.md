@@ -8,7 +8,7 @@
 - **מסך חסימה**: חלון `TYPE_ACCESSIBILITY_OVERLAY` – לא דורש הרשאת "הצגה מעל אפליקציות אחרות".
 
 ## התקנה
-1. ב-GitHub: **Actions → Build APK → הרצה אחרונה → Artifacts → VideoStop-debug-apk**.
+1. הורדה: [דף ההורדה (Releases → latest)](https://github.com/hershaleh/video-stop/releases/tag/latest) → `VideoStop.apk`.
 2. התקנת ה-APK בטלפון.
 3. פתיחת האפליקציה → "פתיחת הגדרות נגישות" → הפעלת **VideoStop**.
 4. באנדרואיד 13+ (התקנה מחוץ לחנות): הגדרות ← אפליקציות ← VideoStop ← ⋮ ← **אפשר הגדרות מוגבלות**.
