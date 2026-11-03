@@ -76,6 +76,7 @@ class VideoBlockService : AccessibilityService() {
     private var touchScrolled = false
     private var nodeBudget = 0
     private var grabbing = false
+    private var uninstallScreen = false
     private var grabStart = 0L
 
     private val detectors = HashMap<String, MotionDetector>()
@@ -116,14 +117,22 @@ class VideoBlockService : AccessibilityService() {
 
         // הגנה על הגדרות הנגישות / הסרת האפליקציה
         if (pkg in PROTECTED_PACKAGES) {
-            if (type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) currentPkg = pkg
-            guardSettings(pkg, now)
+            if (type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+                currentPkg = pkg
+                if (pkg in INSTALLER_PACKAGES) {
+                    uninstallScreen =
+                        event.className?.toString()?.contains("uninstall", ignoreCase = true) == true
+                }
+            }
+            // התקנה ועדכון חופשיים; ממסכי ההתקנה רק מסך ההסרה מוגן
+            if (pkg !in INSTALLER_PACKAGES || uninstallScreen) guardSettings(pkg, now)
             return
         }
 
         if (type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             currentPkg = pkg
             currentDomain = null
+            uninstallScreen = false
             resetDetectors()
             if (pinOverlay != null) hidePin()
         }
@@ -619,6 +628,14 @@ class VideoBlockService : AccessibilityService() {
         /** מסכים שמהם אפשר לכבות או להסיר את האפליקציה – מוגנים בקוד (אם הוגדר). */
         val PROTECTED_PACKAGES = setOf(
             "com.android.settings",
+            "com.google.android.packageinstaller",
+            "com.android.packageinstaller",
+            "com.samsung.android.packageinstaller",
+            "com.google.android.permissioncontroller"
+        )
+
+        /** מסכי התקנה/הסרה של המערכת: מוגנים רק כשזה מסך הסרה. */
+        val INSTALLER_PACKAGES = setOf(
             "com.google.android.packageinstaller",
             "com.android.packageinstaller",
             "com.samsung.android.packageinstaller",

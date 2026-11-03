@@ -31,6 +31,8 @@
     <string name="pin_removed">הקוד הוסר</string>
     <string name="pin_wrong">קוד שגוי</string>
     <string name="pin_len_error">הקוד חייב להכיל 4–8 ספרות</string>
+    <string name="pin_forgot">שכחתי קוד</string>
+    <string name="pin_reset_pending">הקוד יתאפס בעוד %1$d דקות. עד אז ההגדרות נשארות מוגנות.</string>
     <string name="dlg_ok">אישור</string>
     <string name="dlg_cancel">ביטול</string>
     <string name="pin_title">הזן קוד כדי להמשיך</string>

@@ -2,6 +2,7 @@ package com.hershaleh.videostop
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.Typeface
 import android.util.TypedValue
 import android.view.Gravity
@@ -123,6 +124,15 @@ class PinPad(
             })
         }
         col.addView(grid)
+        col.addView(TextView(ctx).apply {
+            setText(R.string.pin_forgot)
+            setTextColor(0xCCFFFFFF.toInt())
+            dipText(14f)
+            gravity = Gravity.CENTER
+            paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG
+            setPadding(dp(16f), dp(10f), dp(16f), dp(10f))
+            setOnClickListener { Prefs.requestReset(ctx); showPending() }
+        })
 
         val scroll = ScrollView(ctx).apply {
             isFillViewport = true
@@ -135,6 +145,12 @@ class PinPad(
             FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT
         ))
         refresh()
+        showPending()
+    }
+
+    private fun showPending() {
+        val ms = Prefs.resetRemainingMs(ctx)
+        if (ms > 0L) msg.text = ctx.getString(R.string.pin_reset_pending, ((ms + 59_999L) / 60_000L).toInt())
     }
 
     private fun press(d: String) {

@@ -77,19 +77,27 @@ class MainActivity : Activity() {
 
     // ---- קוד הגנה ----
 
-    private fun askPin(title: Int, onOk: (String) -> Unit) {
+    private fun askPin(title: Int, withForgot: Boolean = false, onOk: (String) -> Unit) {
         val et = EditText(this).apply {
             inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
             filters = arrayOf(InputFilter.LengthFilter(8))
             gravity = Gravity.CENTER
             textSize = 24f
         }
-        AlertDialog.Builder(this)
+        val b = AlertDialog.Builder(this)
             .setTitle(title)
             .setView(et)
             .setPositiveButton(R.string.dlg_ok) { _, _ -> onOk(et.text.toString()) }
             .setNegativeButton(R.string.dlg_cancel, null)
-            .show()
+        if (withForgot) b.setNeutralButton(R.string.pin_forgot) { _, _ -> forgotPin() }
+        b.show()
+    }
+
+    private fun forgotPin() {
+        Prefs.requestReset(this)
+        val min = ((Prefs.resetRemainingMs(this) + 59_999L) / 60_000L).toInt()
+        Toast.makeText(this, getString(R.string.pin_reset_pending, min), Toast.LENGTH_LONG).show()
+        refreshUi()
     }
 
     private fun toast(res: Int) = Toast.makeText(this, res, Toast.LENGTH_SHORT).show()
@@ -99,7 +107,7 @@ class MainActivity : Activity() {
             newPin()
             return
         }
-        askPin(R.string.pin_enter_current) { current ->
+        askPin(R.string.pin_enter_current, withForgot = true) { current ->
             if (!Prefs.verify(this, current)) {
                 toast(R.string.pin_wrong)
                 return@askPin
