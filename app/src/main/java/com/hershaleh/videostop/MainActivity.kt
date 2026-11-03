@@ -2,6 +2,7 @@ package com.hershaleh.videostop
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Intent
 import android.media.projection.MediaProjectionManager
@@ -26,6 +27,7 @@ class MainActivity : Activity() {
     private lateinit var btnPin: Button
     private lateinit var btnBattery: Button
     private lateinit var btnProjection: Button
+    private lateinit var btnAdmin: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +42,8 @@ class MainActivity : Activity() {
         btnPin = findViewById(R.id.btnPin)
         btnBattery = findViewById(R.id.btnBattery)
         btnProjection = findViewById(R.id.btnProjection)
+        btnAdmin = findViewById(R.id.btnAdmin)
+        btnAdmin.setOnClickListener { onAdminClicked() }
 
         findViewById<Button>(R.id.btnSettings).setOnClickListener {
             startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
@@ -62,6 +66,7 @@ class MainActivity : Activity() {
         desc.setText(if (on) R.string.status_on_desc else R.string.status_off_desc)
         btnPin.setText(if (Prefs.hasPin(this)) R.string.btn_pin_manage else R.string.btn_pin_set)
         btnBattery.setText(if (ignoringBattery()) R.string.btn_battery_ok else R.string.btn_battery)
+        btnAdmin.setText(if (adminActive()) R.string.btn_admin_on else R.string.btn_admin_off)
         btnProjection.setText(
             if (ProjectionHolder.grabber != null) R.string.btn_projection_on else R.string.btn_projection_off
         )
@@ -135,6 +140,34 @@ class MainActivity : Activity() {
                 toast(R.string.pin_saved)
                 refreshUi()
             }
+        }
+    }
+
+    // ---- הגנה מהסרה (מנהל מכשיר) ----
+
+    private fun adminComponent() = ComponentName(this, AdminReceiver::class.java)
+
+    private fun adminActive() =
+        (getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager).isAdminActive(adminComponent())
+
+    private fun onAdminClicked() {
+        val dpm = getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
+        if (!dpm.isAdminActive(adminComponent())) {
+            startActivity(
+                Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
+                    .putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, adminComponent())
+                    .putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, getString(R.string.admin_explain))
+            )
+            return
+        }
+        // ביטול ההגנה מחייב קוד (אם הוגדר)
+        val deactivate = { dpm.removeActiveAdmin(adminComponent()); refreshUi() }
+        if (Prefs.hasPin(this)) {
+            askPin(R.string.pin_enter_current, withForgot = true) { pin ->
+                if (Prefs.verify(this, pin)) deactivate() else toast(R.string.pin_wrong)
+            }
+        } else {
+            deactivate()
         }
     }
 

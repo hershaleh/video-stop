@@ -137,6 +137,11 @@ class VideoBlockService : AccessibilityService() {
             if (pinOverlay != null) hidePin()
         }
 
+        // מנהלי אפליקציות של היצרן, חנות האפליקציות וכד'
+        if (pkg != homePkg && !BROWSER_URL_IDS.containsKey(pkg) && isSystemPackage(pkg)) {
+            guardSettings(pkg, now, requireAction = true)
+        }
+
         if (overlay != null) {
             if (type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED && pkg != blockedPackage) {
                 hideOverlay()
@@ -345,24 +350,46 @@ class VideoBlockService : AccessibilityService() {
 
     // ───────────────────────── קוד הגנה ─────────────────────────
 
-    private fun guardSettings(pkg: String, now: Long) {
+    /**
+     * מגן על כיבוי/הסרה. במסכי ההגדרות הידועים מספיק שמופיע שם האפליקציה;
+     * במסכי ניהול אחרים של המערכת/היצרן (requireAction) נדרשת גם מילת פעולה
+     * כמו "הסר" או "עצור".
+     */
+    private fun guardSettings(pkg: String, now: Long, requireAction: Boolean = false) {
         if (!Prefs.hasPin(this) || pinOverlay != null || now < pinGraceUntil) return
         if (now - lastGuardScan < GUARD_INTERVAL_MS) return
         lastGuardScan = now
         val root = rootInActiveWindow ?: return
         if (root.packageName?.toString() != pkg) return
         nodeBudget = MAX_NODES
-        if (mentionsApp(root, 0, getString(R.string.app_name))) showPin()
+        val found = BooleanArray(2) // [0] שם האפליקציה, [1] מילת פעולה
+        scanForGuard(root, 0, getString(R.string.app_name), found)
+        if (found[0] && (!requireAction || found[1])) showPin()
     }
 
-    private fun mentionsApp(node: AccessibilityNodeInfo?, depth: Int, name: String): Boolean {
-        if (node == null || depth > MAX_DEPTH || nodeBudget-- <= 0) return false
-        if (node.text?.contains(name, ignoreCase = true) == true) return true
-        if (node.contentDescription?.contains(name, ignoreCase = true) == true) return true
-        for (i in 0 until node.childCount) {
-            if (mentionsApp(node.getChild(i), depth + 1, name)) return true
+    private fun scanForGuard(node: AccessibilityNodeInfo?, depth: Int, name: String, found: BooleanArray) {
+        if (node == null || depth > MAX_DEPTH || nodeBudget-- <= 0) return
+        for (t in arrayOf(node.text, node.contentDescription)) {
+            if (t == null) continue
+            if (t.contains(name, ignoreCase = true)) found[0] = true
+            if (ACTION_WORDS.any { t.contains(it, ignoreCase = true) }) found[1] = true
         }
-        return false
+        if (found[0] && found[1]) return
+        for (i in 0 until node.childCount) {
+            scanForGuard(node.getChild(i), depth + 1, name, found)
+            if (found[0] && found[1]) return
+        }
+    }
+
+    private val systemCache = HashMap<String, Boolean>()
+
+    private fun isSystemPackage(pkg: String): Boolean = systemCache.getOrPut(pkg) {
+        try {
+            val f = packageManager.getApplicationInfo(pkg, 0).flags
+            (f and (ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) != 0
+        } catch (_: Exception) {
+            false
+        }
     }
 
     private fun showPin() {
@@ -624,6 +651,12 @@ class VideoBlockService : AccessibilityService() {
         const val PIN_GRACE_MS = 90_000L
 
         val IGNORED_PACKAGES = setOf("com.android.systemui")
+
+        /** מילים שמצביעות על פעולת הסרה/כיבוי (עברית ואנגלית). */
+        val ACTION_WORDS = listOf(
+            "uninstall", "force stop", "disable", "deactivate", "clear data", "clear storage", "turn off",
+            "הסר", "עצור", "השבת", "בטל", "נקה", "כבה", "מחק"
+        )
 
         /** מסכים שמהם אפשר לכבות או להסיר את האפליקציה – מוגנים בקוד (אם הוגדר). */
         val PROTECTED_PACKAGES = setOf(
