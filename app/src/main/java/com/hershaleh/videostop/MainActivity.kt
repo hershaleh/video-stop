@@ -57,6 +57,7 @@ class MainActivity : Activity() {
     override fun onResume() {
         super.onResume()
         refreshUi()
+        if (!Prefs.hasPin(this)) requirePin()
     }
 
     private fun refreshUi() {
@@ -117,17 +118,41 @@ class MainActivity : Activity() {
                 toast(R.string.pin_wrong)
                 return@askPin
             }
-            AlertDialog.Builder(this)
-                .setItems(arrayOf(getString(R.string.pin_change), getString(R.string.pin_remove))) { _, which ->
-                    if (which == 0) {
-                        newPin()
-                    } else {
-                        Prefs.clearPin(this)
-                        toast(R.string.pin_removed)
-                        refreshUi()
-                    }
-                }
-                .show()
+            newPin()
+        }
+    }
+
+    private var requiringPin = false
+
+    /** חובה להגדיר קוד: הדיאלוג אינו ניתן לסגירה עד שנבחר קוד תקין. */
+    private fun requirePin() {
+        if (requiringPin) return
+        requiringPin = true
+        val et = EditText(this).apply {
+            inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
+            filters = arrayOf(InputFilter.LengthFilter(8))
+            gravity = Gravity.CENTER
+            textSize = 24f
+        }
+        val dialog = AlertDialog.Builder(this)
+            .setTitle(R.string.pin_required_title)
+            .setMessage(R.string.pin_required_msg)
+            .setView(et)
+            .setCancelable(false)
+            .setPositiveButton(R.string.dlg_ok, null)
+            .create()
+        dialog.show()
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+            val pin = et.text.toString()
+            if (pin.length !in 4..8) {
+                toast(R.string.pin_len_error)
+            } else {
+                Prefs.setPin(this, pin)
+                requiringPin = false
+                dialog.dismiss()
+                toast(R.string.pin_saved)
+                refreshUi()
+            }
         }
     }
 

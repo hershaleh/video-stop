@@ -17,7 +17,7 @@
     <string name="block_button">חזרה למסך הבית</string>
 
     <string name="btn_pin_set">הגדרת קוד הגנה</string>
-    <string name="btn_pin_manage">קוד הגנה: שינוי / הסרה</string>
+    <string name="btn_pin_manage">שינוי קוד הגנה</string>
     <string name="btn_battery">פטור מחיסכון בסוללה</string>
     <string name="btn_battery_ok">✓ פטור מחיסכון בסוללה פעיל</string>
     <string name="btn_projection_off">הפעלת זיהוי תנועה (אנדרואיד 8–10)</string>
@@ -34,6 +34,8 @@
     <string name="btn_admin_off">הגנה מהסרה (מנהל מכשיר)</string>
     <string name="btn_admin_on">✓ הגנה מהסרה פעילה (לחיצה לביטול)</string>
     <string name="admin_explain">כל עוד האפשרות פעילה, לא ניתן להסיר את VideoStop מהמכשיר. לא ניתנות לאפליקציה הרשאות ניהול כלשהן.</string>
+    <string name="pin_required_title">הגדרת קוד הגנה</string>
+    <string name="pin_required_msg">כדי להגן על VideoStop מכיבוי והסרה, יש לבחור קוד (4–8 ספרות). הקוד יידרש לכיבוי, להסרה ולשינוי הגדרות.</string>
     <string name="pin_forgot">שכחתי קוד</string>
     <string name="pin_reset_pending">הקוד יתאפס בעוד %1$d דקות. עד אז ההגדרות נשארות מוגנות.</string>
     <string name="dlg_ok">אישור</string>
