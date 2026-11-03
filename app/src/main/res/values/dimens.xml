@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ברירת מחדל: מסכים נמוכים (פחות מ-600dp גובה) -->
+    <dimen name="overlay_circle">112dp</dimen>
+    <dimen name="overlay_icon">60dp</dimen>
+    <dimen name="overlay_gap">24dp</dimen>
+    <dimen name="overlay_btn_gap">28dp</dimen>
+    <dimen name="overlay_title">24sp</dimen>
+    <dimen name="overlay_sub">15sp</dimen>
+    <dimen name="main_circle">96dp</dimen>
+    <dimen name="main_icon">52dp</dimen>
+    <dimen name="main_top_pad">32dp</dimen>
+    <dimen name="main_gap">24dp</dimen>
+    <dimen name="main_title">28sp</dimen>
+</resources>

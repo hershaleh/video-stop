@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="overlay_circle">168dp</dimen>
+    <dimen name="overlay_icon">88dp</dimen>
+    <dimen name="overlay_gap">40dp</dimen>
+    <dimen name="overlay_btn_gap">56dp</dimen>
+    <dimen name="overlay_title">30sp</dimen>
+    <dimen name="overlay_sub">17sp</dimen>
+    <dimen name="main_circle">132dp</dimen>
+    <dimen name="main_icon">68dp</dimen>
+    <dimen name="main_top_pad">72dp</dimen>
+    <dimen name="main_gap">44dp</dimen>
+    <dimen name="main_title">34sp</dimen>
+</resources>
