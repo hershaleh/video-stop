@@ -21,6 +21,7 @@ VideoStop שומרת על המסך נקי מוידאו. כשהיא מזהה ני
 
 פרטים נוספים:
 • לא חוסמת בטעות מצלמה, שיחות וידאו, ניווט ומשחקים.
+• רשימת אפליקציות: אפשר להחריג אפליקציות מהחסימה (רשימה לבנה), או לחסום רק באפליקציות שבחרתם (רשימה שחורה).
 • זוכרת מה נחסם: חזרה מהירה לאתר או לאפליקציה שנחסמו תיחסם מיד.
 • קוד הגנה: כיבוי השירות, הסרת האפליקציה ושינוי הגדרותיה מחייבים הזנת קוד. שכחתם את הקוד? אפשר לאפס אותו אחרי המתנה של שעה.
 • הגנה מהסרה (אופציונלית): באמצעות הרשאת "מנהל מכשיר" שאינה כוללת שום הרשאת ניהול, המערכת לא תאפשר להסיר את האפליקציה עד שמבטלים את ההפעלה, בקוד.
@@ -65,6 +66,7 @@ How it detects video
 
 More
 • Camera, video calls, navigation and games are excluded from motion detection.
+• App lists: exempt chosen apps from blocking (allow list), or block only in the apps you pick (block list).
 • Remembers what it blocked: quickly returning to a blocked site or app is blocked immediately.
 • PIN protection: turning off the service, uninstalling the app or changing its settings requires the code. Forgot it? You can reset it after a one-hour wait.
 • Uninstall protection (optional): using the "device administrator" permission, which grants no management powers, the system will not let the app be uninstalled until it is deactivated with the code.

@@ -30,6 +30,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".AppListActivity"
+            android:exported="false" />
+
         <service
             android:name=".VideoBlockService"
             android:exported="true"

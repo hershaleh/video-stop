@@ -150,6 +150,7 @@ class VideoBlockService : AccessibilityService() {
             }
         }
         if (now < cooldownUntil || pkg == homePkg) return
+        if (!Prefs.blockApplies(this, pkg)) return // לפי רשימת האפליקציות
 
         // חזרה לאפליקציה שנחסמה לאחרונה
         if (type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED &&
@@ -440,7 +441,9 @@ class VideoBlockService : AccessibilityService() {
         var rect: Rect? = null
         if (pip != null) {
             val pkg = pip.root?.packageName?.toString()
-            if (pkg == null || !isMotionExempt(pkg)) {
+            val applies = if (pkg == null) Prefs.listMode(this) != Prefs.MODE_ONLY
+            else (!isMotionExempt(pkg) && Prefs.blockApplies(this, pkg))
+            if (applies) {
                 val r = Rect()
                 pip.getBoundsInScreen(r)
                 if (!r.isEmpty) rect = r
@@ -492,7 +495,7 @@ class VideoBlockService : AccessibilityService() {
 
     private fun eligible(pkg: String) =
         pkg != packageName && pkg !in IGNORED_PACKAGES && pkg !in PROTECTED_PACKAGES &&
-            pkg != homePkg && !isMotionExempt(pkg)
+            pkg != homePkg && !isMotionExempt(pkg) && Prefs.blockApplies(this, pkg)
 
     /** חלונות שנבדקים: חלון לכל אפליקציה במסך מפוצל, אחרת האפליקציה בחזית. */
     private fun collectTargets(): List<Target> {

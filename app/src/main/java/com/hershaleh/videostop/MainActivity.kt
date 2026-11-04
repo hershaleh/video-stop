@@ -28,6 +28,7 @@ class MainActivity : Activity() {
     private lateinit var btnBattery: Button
     private lateinit var btnProjection: Button
     private lateinit var btnAdmin: Button
+    private lateinit var btnApps: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +44,8 @@ class MainActivity : Activity() {
         btnBattery = findViewById(R.id.btnBattery)
         btnProjection = findViewById(R.id.btnProjection)
         btnAdmin = findViewById(R.id.btnAdmin)
+        btnApps = findViewById(R.id.btnApps)
+        btnApps.setOnClickListener { onAppsClicked() }
         btnAdmin.setOnClickListener { onAdminClicked() }
 
         findViewById<Button>(R.id.btnSettings).setOnClickListener {
@@ -165,6 +168,19 @@ class MainActivity : Activity() {
                 toast(R.string.pin_saved)
                 refreshUi()
             }
+        }
+    }
+
+    // ---- רשימת אפליקציות (נדרש קוד) ----
+
+    private fun onAppsClicked() {
+        val open = { startActivity(Intent(this, AppListActivity::class.java)) }
+        if (Prefs.hasPin(this)) {
+            askPin(R.string.pin_enter_current, withForgot = true) { pin ->
+                if (Prefs.verify(this, pin)) open() else toast(R.string.pin_wrong)
+            }
+        } else {
+            open()
         }
     }
 

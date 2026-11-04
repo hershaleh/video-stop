@@ -124,6 +124,17 @@
             android:textSize="16sp" />
 
         <Button
+            android:id="@+id/btnApps"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_button_ghost"
+            android:stateListAnimator="@null"
+            android:text="@string/btn_apps"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp" />
+
+        <Button
             android:id="@+id/btnAdmin"
             android:layout_width="match_parent"
             android:layout_height="56dp"

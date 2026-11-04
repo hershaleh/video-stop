@@ -15,6 +15,30 @@ object Prefs {
     /** זמן ההמתנה לאיפוס קוד שנשכח. */
     const val RESET_DELAY_MS = 60L * 60 * 1000
 
+    // ---- רשימות אפליקציות ----
+    const val MODE_ALL = 0     // חסימה בכל האפליקציות
+    const val MODE_EXCEPT = 1  // כל האפליקציות חוץ מהמסומנות (רשימה לבנה)
+    const val MODE_ONLY = 2    // רק האפליקציות המסומנות (רשימה שחורה)
+
+    fun listMode(c: Context) = sp(c).getInt("list_mode", MODE_ALL)
+
+    fun setListMode(c: Context, mode: Int) {
+        sp(c).edit().putInt("list_mode", mode).apply()
+    }
+
+    fun listedApps(c: Context): Set<String> = sp(c).getStringSet("list_pkgs", null) ?: emptySet()
+
+    fun setListedApps(c: Context, pkgs: Set<String>) {
+        sp(c).edit().putStringSet("list_pkgs", HashSet(pkgs)).apply()
+    }
+
+    /** האם הזיהוי והחסימה פעילים באפליקציה הזו, לפי המצב והרשימה. */
+    fun blockApplies(c: Context, pkg: String): Boolean = when (listMode(c)) {
+        MODE_EXCEPT -> pkg !in listedApps(c)
+        MODE_ONLY -> pkg in listedApps(c)
+        else -> true
+    }
+
     fun hasPin(c: Context): Boolean {
         expireResetIfDue(c)
         return sp(c).contains("pin_hash")

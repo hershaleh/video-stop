@@ -36,6 +36,16 @@
     <string name="admin_explain">כל עוד האפשרות פעילה, לא ניתן להסיר את VideoStop מהמכשיר. לא ניתנות לאפליקציה הרשאות ניהול כלשהן.</string>
     <string name="pin_required_title">הגדרת קוד הגנה</string>
     <string name="pin_required_msg">כדי להגן על VideoStop מכיבוי והסרה, יש לבחור קוד (4–8 ספרות). הקוד יידרש לכיבוי, להסרה ולשינוי הגדרות.</string>
+    <string name="btn_apps">ניהול אפליקציות: רשימה לבנה / שחורה</string>
+    <string name="apps_title">ניהול אפליקציות</string>
+    <string name="mode_all">חסימה בכל האפליקציות</string>
+    <string name="mode_except">חסימה בכל האפליקציות חוץ מהמסומנות (רשימה לבנה)</string>
+    <string name="mode_only">חסימה רק באפליקציות המסומנות (רשימה שחורה)</string>
+    <string name="apps_search">חיפוש אפליקציה</string>
+    <string name="apps_hint_all">במצב הזה הרשימה אינה בשימוש.</string>
+    <string name="apps_hint_except">אפליקציות מסומנות לא ייחסמו.</string>
+    <string name="apps_hint_only">רק אפליקציות מסומנות ייחסמו.</string>
+    <string name="apps_hint_only_empty">לא סומנה אף אפליקציה, ולכן שום דבר לא ייחסם.</string>
     <string name="pin_forgot">שכחתי קוד</string>
     <string name="pin_reset_pending">הקוד יתאפס בעוד %1$d דקות. עד אז ההגדרות נשארות מוגנות.</string>
     <string name="dlg_ok">אישור</string>
